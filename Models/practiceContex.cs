@@ -11,7 +11,7 @@ namespace practiceAPI.Models
     {
         public practiceContex(DbContextOptions<practiceContex> options) : base(options) { }
         public DbSet<Usersdata> Users { get; set; }
-        public DbSet<UserDetailsView> UserDetailsView { get; set; }
+        public DbSet<UserDetailsView> UserDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -57,6 +57,8 @@ namespace practiceAPI.Models
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);                 //создание чегото через алгоритм HmacSha256
 
                 var token = new JwtSecurityToken(
+                    issuer: _configuration["Jwt:Issuer"],       //оказалось нужным
+                    audience: _configuration["Jwt:Audience"],   //оказалось нужным
                     claims: claims,                                                                             // данные ранее засунутые в Claim
                     expires: DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["Jwt:ExpireMinutes"])),    // время действия токена
                     signingCredentials: creds);                                                                 // преобразованый в чтото ключ

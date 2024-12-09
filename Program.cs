@@ -40,9 +40,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorizationBuilder()
-    .AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"))
-    .AddPolicy("ManagerOnly", policy => policy.RequireRole("Manager"))
-    .AddPolicy("UserOnly", policy => policy.RequireRole("User"));
+    .AddPolicy("AdminOnly", policy => policy.RequireRole("1"))
+    .AddPolicy("ManagerOnly", policy => policy.RequireRole("2"))
+    .AddPolicy("UserOnly", policy => policy.RequireRole("3"));
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 

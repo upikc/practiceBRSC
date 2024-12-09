@@ -55,26 +55,9 @@ namespace practiceAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDetailsView>>> GetUserDetails()
         {
-            IEnumerable<UserDetailsView> userDetails = await _context.UserDetailsView.ToListAsync(); //затуп
+            IEnumerable<UserDetailsView> userDetails = await _context.UserDetails.ToListAsync(); //затуп
             return Ok(userDetails);
         }
-
-
-
-        //[HttpGet("login")]
-        //public async Task<IActionResult> Login(string email, string password)
-        //{
-        //    var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == email);
-
-        //    if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
-        //    {
-        //        return Unauthorized();
-        //    }
-
-        //    var token = _tokenService.GenerateToken(user);
-        //    return Ok(new { Token = token });
-        //}
-
     }
 
 }
