@@ -17,6 +17,12 @@ namespace practiceAPI.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Получение данных пользователей
+        /// </summary>
+        /// <response code="200">Возвращает данные пользователей</response>
+        /// <response code="401">Недостаток токена</response>
+        /// <response code="403">Доступ запрещен</response>
         [HttpGet("GetUsersWithDetails")] //USERS
         [Authorize(Policy = "Manager")]
         public async Task<ActionResult<IEnumerable<UserDetailsView>>> GetUserDetails()
@@ -29,6 +35,13 @@ namespace practiceAPI.Controllers
             return await _context.UserDetails.ToListAsync();
         }
 
+        /// <summary>
+        /// Получение данных пользователя по ID
+        /// </summary>
+        /// <response code="200">Возвращает данные пользователя</response>
+        /// <response code="401">Недостаток токена</response>
+        /// <response code="403">Доступ запрещен</response>
+        /// <response code="404">Пользователь не найден</response>
         [HttpGet("GetUserById")] //USER BY ID
         [Authorize(Policy = "Manager")]
         public async Task<ActionResult<UserDetailsView>> GetUser(int id)
@@ -49,6 +62,13 @@ namespace practiceAPI.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Обновление имени и почты пользователя
+        /// </summary>
+        /// <response code="200">Обновление успешно</response>
+        /// <response code="401">Недостаток токена</response>
+        /// <response code="403">Доступ запрещен</response>
+        /// <response code="404">Пользователь не найден</response>
         [HttpPut("UpdateUserData")] //Update
         [Authorize(Policy = "Manager")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserModel model)
@@ -73,6 +93,13 @@ namespace practiceAPI.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Обновление имени, почты, пароля и роли пользователя
+        /// </summary>
+        /// <response code="200">Обновление успешно</response>
+        /// <response code="401">Недостаток токена</response>
+        /// <response code="403">Доступ запрещен</response>
+        /// <response code="404">Пользователь не найден</response>
         [HttpPut("UpdateUserDataWithPassword")] //Update
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> UpdateUserWithPass(int id, [FromBody] UpdateUserModelWithPass model)
@@ -93,6 +120,13 @@ namespace practiceAPI.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Удаление пользователя
+        /// </summary>
+        /// <response code="200">Удаление успешно</response>
+        /// <response code="401">Недостаток токена</response>
+        /// <response code="403">Доступ запрещен</response>
+        /// <response code="404">Пользователь не найден</response>
         [HttpDelete("DeleteUser")] //Delete
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> DeleteUser(int id)

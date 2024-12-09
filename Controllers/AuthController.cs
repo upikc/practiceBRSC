@@ -20,6 +20,12 @@ namespace practiceAPI.Controllers
             _tokenService = tokenService;
         }
 
+
+        /// <summary>
+        /// Регистрирует нового пользователя
+        /// </summary>
+        /// <response code="200">Успешная регистрация. Возвращает токен доступа</response>
+        /// <response code="409">Ошибка. Почта занята</response>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
@@ -31,13 +37,23 @@ namespace practiceAPI.Controllers
                 Role_id = 1
             };
 
+            if (_context.Users.FirstOrDefault(x => x.Email == model.Email) == default)
+                return Conflict("Логин занят");
+
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             var token = _tokenService.GenerateToken(user);
-            return Ok(new { Token = token });
+                return Ok(new { Token = token });
         }
 
+        /// <summary>
+        /// Авторизация пользователя
+        /// </summary>
+        /// <returns>Токен доступа</returns>
+        /// <response code="200">Успешый вход. Возвращает токен доступа</response>
+        /// <response code="400">Ошибка. Не верные данные</response>
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
@@ -45,7 +61,7 @@ namespace practiceAPI.Controllers
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
             {
-                return Unauthorized();
+                return BadRequest();
             }
 
             var token = _tokenService.GenerateToken(user);
