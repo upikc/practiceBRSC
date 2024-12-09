@@ -50,7 +50,8 @@ namespace practiceAPI.Models
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.Email),                 //почта
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),  //идентификатор токена
-                    new Claim(ClaimTypes.Role, user.Role_id.ToString())                            //роль
+                    new Claim(ClaimTypes.Role, user.Role_id.ToString()),                // роль
+                    new Claim(ClaimTypes.Email, user.Email)
                 };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));  //создаем ключ используя данные appsettings.json

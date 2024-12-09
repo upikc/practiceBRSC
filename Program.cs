@@ -41,8 +41,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("AdminOnly", policy => policy.RequireRole("1"))
-    .AddPolicy("ManagerOnly", policy => policy.RequireRole("2"))
-    .AddPolicy("UserOnly", policy => policy.RequireRole("3"));
+    .AddPolicy("Manager", policy => policy.RequireRole("2", "1"))
+    .AddPolicy("User", policy => policy.RequireRole("3"));
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 

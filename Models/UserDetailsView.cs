@@ -1,4 +1,6 @@
-﻿namespace practiceAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace practiceAPI.Models
 {
     public class Usersdata
     {
@@ -35,6 +37,13 @@
     {
         public string Name { get; set; }
         public string Email { get; set; }
+    }
+    public class UpdateUserModelWithPass
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public int Role_id { get; set; }
     }
 
 }

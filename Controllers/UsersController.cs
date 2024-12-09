@@ -17,18 +17,23 @@ namespace practiceAPI.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        [Authorize(Policy = "AdminOnly")]
-        public async Task<ActionResult<IEnumerable<Usersdata>>> GetUsers()
+        [HttpGet("GetUsersWithDetails")] //USERS
+        [Authorize(Policy = "Manager")]
+        public async Task<ActionResult<IEnumerable<UserDetailsView>>> GetUserDetails()
         {
-            return await _context.Users.ToListAsync();
+            var currentUser = GetCurrentUser();
+            if (currentUser.Role_id != 1)
+            {
+                return await _context.UserDetails.Where(u => u.role != "Admin").ToListAsync();//исключить админов
+            }
+            return await _context.UserDetails.ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        [Authorize]
-        public async Task<ActionResult<Usersdata>> GetUser(int id)
+        [HttpGet("GetUserById")] //USER BY ID
+        [Authorize(Policy = "Manager")]
+        public async Task<ActionResult<UserDetailsView>> GetUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.UserDetails.FirstOrDefaultAsync(u => u.id == id);
 
             if (user == null)
             {
@@ -36,16 +41,16 @@ namespace practiceAPI.Controllers
             }
 
             var currentUser = GetCurrentUser();
-            if (currentUser.Role_id != 1 && currentUser.Id != id)
+            if (currentUser.Role_id != 1 && user.role == "Admin")//получение админа не админом
             {
                 return Forbid();
             }
 
-            return user;
+            return Ok(user);
         }
 
-        [HttpPut("{id}")]
-        [Authorize]
+        [HttpPut("UpdateUserData")] //Update
+        [Authorize(Policy = "Manager")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserModel model)
         {
             var user = await _context.Users.FindAsync(id);
@@ -56,7 +61,7 @@ namespace practiceAPI.Controllers
             }
 
             var currentUser = GetCurrentUser();
-            if (currentUser.Role_id != 1 && currentUser.Id != id)
+            if (currentUser.Role_id != 1 && user.Role_id == 1)//изминение админа не админом
             {
                 return Forbid();
             }
@@ -65,10 +70,30 @@ namespace practiceAPI.Controllers
             user.Email = model.Email;
 
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpPut("UpdateUserDataWithPassword")] //Update
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<IActionResult> UpdateUserWithPass(int id, [FromBody] UpdateUserModelWithPass model)
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Name = model.Name;  //доступно только админу, поэтому нет проверок
+            user.Email = model.Email;
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
+            user.Role_id = model.Role_id;
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpDelete("DeleteUser")] //Delete
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -81,7 +106,7 @@ namespace practiceAPI.Controllers
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok();
         }
 
         private Usersdata GetCurrentUser()

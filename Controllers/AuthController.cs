@@ -51,13 +51,6 @@ namespace practiceAPI.Controllers
             var token = _tokenService.GenerateToken(user);
             return Ok(new { Token = token });
         }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDetailsView>>> GetUserDetails()
-        {
-            IEnumerable<UserDetailsView> userDetails = await _context.UserDetails.ToListAsync(); //затуп
-            return Ok(userDetails);
-        }
     }
 
 }
