@@ -4,29 +4,23 @@ using System.Security.Claims;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
+using practiceAPI.Models;
 
-namespace practiceAPI.Models
+namespace practiceAPI
 {
     public class practiceContex : DbContext
     {
         public practiceContex(DbContextOptions<practiceContex> options) : base(options) { }
         public DbSet<Usersdata> Users { get; set; }
-        public DbSet<UserDetailsView> UserDetails { get; set; }
+        public DbSet<ExchangeUserModels> UserDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //
-            modelBuilder.Entity<Usersdata>().HasData(
-                new Usersdata { Id = 0, Name = "Admin",
-                            Email = "admin@example.com",
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("password"),
-                            Role_id = 1}
-            );
-            //
-            modelBuilder.Entity<UserDetailsView>(entity =>
+
+            modelBuilder.Entity<ExchangeUserModels>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.id);
                 entity.ToView("UserDetailsView");
             });
         }

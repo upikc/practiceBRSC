@@ -11,7 +11,7 @@ namespace practiceAPI.Models
         public int Role_id { get; set; }
     }
 
-    public class UserDetailsView
+    public class ExchangeUserModels
     {
         public int id { get; set; }
         public string name { get; set; }

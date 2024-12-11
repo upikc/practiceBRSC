@@ -25,7 +25,7 @@ namespace practiceAPI.Controllers
         /// <response code="403">Доступ запрещен</response>
         [HttpGet("GetUsersWithDetails")] //USERS
         [Authorize(Policy = "Manager")]
-        public async Task<ActionResult<IEnumerable<UserDetailsView>>> GetUserDetails()
+        public async Task<ActionResult<IEnumerable<ExchangeUserModels>>> GetUserDetails()
         {
             var currentUser = GetCurrentUser();
             if (currentUser.Role_id != 1)
@@ -44,7 +44,7 @@ namespace practiceAPI.Controllers
         /// <response code="404">Пользователь не найден</response>
         [HttpGet("GetUserById")] //USER BY ID
         [Authorize(Policy = "Manager")]
-        public async Task<ActionResult<UserDetailsView>> GetUser(int id)
+        public async Task<ActionResult<ExchangeUserModels>> GetUser(int id)
         {
             var user = await _context.UserDetails.FirstOrDefaultAsync(u => u.id == id);
 

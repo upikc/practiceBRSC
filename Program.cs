@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using practiceAPI.Models;
+using practiceAPI;
 using System.Reflection;
 using System.Text;
-using static practiceAPI.Models.practiceContex;
+using static practiceAPI.practiceContex;
 
 var builder = WebApplication.CreateBuilder(args);
 
