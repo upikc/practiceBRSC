@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace practiceAPI.Models
+﻿namespace practiceAPI.Models
 {
     public class Usersdata
     {

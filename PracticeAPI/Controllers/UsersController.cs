@@ -43,7 +43,7 @@ namespace practiceAPI.Controllers
         /// <response code="403">Доступ запрещен</response>
         /// <response code="404">Пользователь не найден</response>
         [HttpGet("GetUserById")] //USER BY ID
-        [Authorize(Policy = "Manager")]
+        [Authorize(Policy = "User")]
         public async Task<ActionResult<ExchangeUserModels>> GetUser(int id)
         {
             var user = await _context.UserDetails.FirstOrDefaultAsync(u => u.id == id);
@@ -54,10 +54,17 @@ namespace practiceAPI.Controllers
             }
 
             var currentUser = GetCurrentUser();
+
+            if (currentUser.Id == user.id)//получение самого себя
+            {
+                Ok(user);
+            }
+
             if (currentUser.Role_id != 1 && user.role == "Admin")//получение админа не админом
             {
                 return Forbid();
             }
+
 
             return Ok(user);
         }
@@ -70,7 +77,7 @@ namespace practiceAPI.Controllers
         /// <response code="403">Доступ запрещен</response>
         /// <response code="404">Пользователь не найден</response>
         [HttpPut("UpdateUserData")] //Update
-        [Authorize(Policy = "Manager")]
+        [Authorize(Policy = "User")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserModel model)
         {
             var user = await _context.Users.FindAsync(id);
@@ -113,7 +120,10 @@ namespace practiceAPI.Controllers
 
             user.Name = model.Name;  //доступно только админу, поэтому нет проверок
             user.Email = model.Email;
+
+            if (model.Password != "")
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
+
             user.Role_id = model.Role_id;
 
             await _context.SaveChangesAsync();

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35219.272
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "practiceAPI", "practiceAPI.csproj", "{0FF23A64-A284-467F-89EA-F2728ECA59B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "practiceAPI", "practiceAPI\practiceAPI.csproj", "{0FF23A64-A284-467F-89EA-F2728ECA59B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "parcticeAPP", "parcticeAPP\parcticeAPP.csproj", "{1D377002-93A7-4693-A2FA-C681224864B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0FF23A64-A284-467F-89EA-F2728ECA59B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FF23A64-A284-467F-89EA-F2728ECA59B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FF23A64-A284-467F-89EA-F2728ECA59B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D377002-93A7-4693-A2FA-C681224864B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D377002-93A7-4693-A2FA-C681224864B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D377002-93A7-4693-A2FA-C681224864B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D377002-93A7-4693-A2FA-C681224864B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

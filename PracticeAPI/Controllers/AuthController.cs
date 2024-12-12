@@ -34,18 +34,24 @@ namespace practiceAPI.Controllers
                 Name = model.Name,
                 Email = model.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password),
-                Role_id = 1
+                Role_id = 3
             };
 
-            if (_context.Users.FirstOrDefault(x => x.Email == model.Email) == default)
-                return Conflict("Логин занят");
+            if (_context.Users.FirstOrDefault(x => x.Email == model.Email) != default)
+                return Conflict("Почта занята");
 
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
+            var userDetails = await _context.UserDetails.SingleOrDefaultAsync(x => x.email == model.Email);
+
             var token = _tokenService.GenerateToken(user);
-                return Ok(new { Token = token });
+            return Ok(new
+            {
+                Token = token,
+                User = userDetails
+            });
         }
 
         /// <summary>
@@ -63,9 +69,13 @@ namespace practiceAPI.Controllers
             {
                 return BadRequest();
             }
+            var userDetails = await _context.UserDetails.SingleOrDefaultAsync(x => x.email == model.Email);
 
             var token = _tokenService.GenerateToken(user);
-            return Ok(new { Token = token });
+            return Ok(new { 
+                Token = token,
+                User = userDetails
+            });
         }
     }
 

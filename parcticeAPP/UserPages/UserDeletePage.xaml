@@ -1,0 +1,18 @@
+﻿<Page x:Class="parcticeAPP.UserPages.UserDeletePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:parcticeAPP.UserPages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="UserDeletePage">
+
+    <Grid>
+        <StackPanel VerticalAlignment="Top">
+            <Label x:Name="usersComboBoxlabel" Content="Выбор Пользователя:" FontSize="20"/>
+            <ComboBox x:Name="usersComboBox" FontSize="30"  Margin="40,0,40,0" />
+            <Button Content="Удалить" FontSize="30" Margin="40,10,40,10" Click="Delete" />
+        </StackPanel>
+    </Grid>
+</Page>
